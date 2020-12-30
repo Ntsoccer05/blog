@@ -444,8 +444,9 @@ class ReplyDelete(LoginRequiredMixin, DeleteView):
         return resolve_url('blogapp:post_detail', pk=pk)
 
 
-# def google(request):
-#     return render(request, 'blogapp/google285b2115e8e0c8a6.html')
+def google(request):
+    return render(request, 'blogapp/google285b2115e8e0c8a6.html')
+
 
 class Privacy(TemplateView):
     template_name = 'blogapp/privacy.html'
