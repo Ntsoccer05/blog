@@ -139,9 +139,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+# ]
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.open_id.OpenIdAuth',
@@ -209,6 +209,11 @@ CKEDITOR_CONFIGS = {
         'toolbarGroups': [{'name': 'document', 'groups': ['mode', 'document', 'doctools']}],
         'height': 400,
         'width': '100%',
+        'codeSnippet_languages': {
+            'python': 'Python',
+            'php': 'PHP',
+            'javascript': 'JavaScript',
+        },
         'filebrowserWindowHeight': 725,
         'filebrowserWindowWidth': 940,
         'toolbarCanCollapse': True,
