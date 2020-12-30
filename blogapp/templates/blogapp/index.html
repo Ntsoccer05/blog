@@ -1,0 +1,84 @@
+{% extends 'blogapp/base.html' %}
+
+
+{% block content %}
+<!-- Start your project here-->
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h2 class="display-4 text-center">{{request.site.siteconfig.top_title}}</h2>
+    <p class="lead text-center">{{request.site.siteconfig.top_subtitle}}</p>
+    <p class="text-center" style="color: red;">※寄付はログイン後ブログ詳細ページにてお願いします</p>
+  </div>
+</div>
+<!-- /Start your project here-->
+<br><br>
+<div class="row">
+  <!-- Card deck -->
+  <div class="card-deck">
+
+    <!-- Card -->
+    <br><br>
+    {% for item in post_list %}
+    <div class="col-md-4">
+      <div class="card mb-4">
+
+        <!--Card image-->
+        <div class="view overlay">
+          {% if item.thumbnail %}
+          <img class="card-img-top" src="{{ item.thumbnail.url }}" alt="{{item.title}}">
+          {% else %}
+          <img class="card-img-top" src="media/images/hari-panicker-2t28IxSTqF4-unsplash-min.jpg" alt="Card image cap">
+          {% endif %}
+          <a href="{% url 'blogapp:post_detail' item.id %}">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body index">
+
+          <!--Title-->
+          <h4 class="card-title text-center">{{item.title}}</h4>
+          <p>{{ item.category }}</p>
+          <hr>
+          <!--Text-->
+          <p class="card-text index-text">{{item.content|safe|truncatechars_html:50}}</p>
+        </div>
+        <div class="card-body">
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <a href="{% url 'blogapp:post_detail' item.id %}" type="button" class="btn btn-light-blue btn-md">もっと読む</a>
+          <a href="{% url 'blogapp:like_add' item.pk %}"><i class="fas fa-heart"
+              style="color: pink;"></i></a>&nbsp;{{item.like_count}}
+        </div>
+        <!-- Card footer -->
+        <div class="card-footer text-muted text-center">
+          <small>
+            {% if item.updated_at %}
+            {{item.updated_at.date}}
+            {% else %}
+            {{item.created_at.date}}
+            {% endif %}
+          </small>
+        </div>
+
+      </div>
+
+      <!-- Card -->
+    </div>
+    {% endfor %}
+
+
+  </div>
+
+  <!-- Card deck -->
+
+
+
+</div>
+<br><br>
+<div class="button">
+  <a href="{% url 'blogapp:post_list' %}"><button type="button"
+      class="btn btn-outline-default waves-effect">全ての記事を見る</button></a>
+</div>
+<br>
+{% endblock content %}

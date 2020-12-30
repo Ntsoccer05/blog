@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-RWW9XCXHRE"></script> -->
+  <!-- <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-RWW9XCXHRE');
+  </script> -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{{request.site.siteconfig.meta_title}}</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  <!-- Google adSense -->
+  <!-- <script data-ad-client="ca-pub-5309686816911413" async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+  <!-- Your custom styles (optional) -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+  <!--Navbar-->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark blue">
+
+    <!-- Navbar brand -->
+    <a class="navbar-brand text-center" href="/">MyBlog</a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+      aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+
+      <!-- Links -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blogapp:index' %}">ホーム
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin" target="_blank">管理画面へ</a>
+        </li>
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="account" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">アカウント</a>
+          <div class="dropdown-menu dropdown-primary" aria-labelledby="account">
+            {% if request.user.is_authenticated %}
+            <a class="dropdown-item">{{request.user}}</a>
+            <a class="dropdown-item" href="{% url 'blogapp:logout' %}">ログアウト</a>
+            {% else %}
+            <a class="dropdown-item" href="{% url 'blogapp:login' %}">ログイン</a>
+            <a class="dropdown-item" href="{% url 'blogapp:user_create' %}">ユーザー登録</a>
+            {% endif %}
+          </div>
+        </li>
+
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">投稿</a>
+          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{% url 'blogapp:post_create' %}">新規投稿</a>
+            <a class="dropdown-item" href="{% url 'blogapp:post_list' %}">投稿一覧</a>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">カテゴリ</a>
+          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            {% for item in category_list %}
+            <a class="dropdown-item" href="{% url 'blogapp:category_detail' item.name_en %}">{{item.name}}</a>
+            {% endfor %}
+            <hr>
+            <a class="dropdown-item" href="{% url 'blogapp:category_list' %}">カテゴリ一覧</a>
+          </div>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blogapp:like_list'%}">お気に入り一覧</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blogapp:contact_form' %}">お問い合わせ</a>
+        </li>
+
+      </ul>
+      <!-- Links -->
+
+      <form action="{% url 'blogapp:search' %}" class="form-inline" method="POST">
+        {% csrf_token %}
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="freeword">
+      </form>
+    </div>
+    <!-- Collapsible content -->
+
+  </nav>
+  <!--/.Navbar-->
+  <main class="container py-5">
+    {% if messages %}
+    <br>
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+
+    {% block content %}
+    {% endblock %}
+  </main>
+  <!-- Footer -->
+  <footer class="page-footer font-small blue pt-4">
+
+    <!-- Footer Links -->
+    <div class="container-fluid text-center text-md-left">
+
+      <!-- Grid row -->
+      <div class="row">
+
+        <!-- Grid column -->
+        <div class="col-md-6 mt-md-0 mt-3">
+
+          <!-- Content -->
+          <h5 class="text-uppercase">SNS</h5>
+
+          <ul class="snsbtniti">
+            <li><a href="https://twitter.com/N_T_soccer0512" class="flowbtn6 fl_tw1"><i class="fab fa-twitter"></i></a>
+            </li>
+            <li><a href="" class="flowbtn6 insta_btn6"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="https://www.facebook.com/takuyasoccer05" class="flowbtn6 fl_fb6"><i
+                  class="fab fa-facebook-f"></i></a></li>
+          </ul>
+
+        </div>
+        <!-- Grid column -->
+
+        <hr class="clearfix w-100 d-md-none pb-3">
+
+        <!-- Grid column -->
+        <div class="col-md-3 mb-md-0 mb-3">
+
+          <!-- Links -->
+          <h5 class="text-uppercase">About</h5>
+
+          <ul class="list-unstyled">
+            <li>
+              <a href="{% url 'blogapp:privacy' %}">プライバシーポリシー</a>
+            </li>
+            <li>
+              <a href="{% url 'blogapp:service' %}">利用規約</a>
+            </li>
+            <li>
+              <a href="{% url 'blogapp:asked_question' %}">よくある質問</a>
+            </li>
+            <!-- <li>
+              <a href="#!">Link 4</a>
+            </li> -->
+          </ul>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row -->
+
+    </div>
+    <!-- Footer Links -->
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+      <a href="https://mdbootstrap.com/">Takuya</a>
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <!-- Footer -->
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+  <script>
+    const btn = document.querySelector('.stripe-button-el > span');
+    btn.innerText = "カードで寄付する";
+  </script>
+</body>
+
+</html>

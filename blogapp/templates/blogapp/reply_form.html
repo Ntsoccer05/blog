@@ -1,0 +1,21 @@
+{% extends 'blogapp/base.html' %}
+
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <br>
+      <br>
+      <h1 class="mb-4">コメント返信フォーム</h1>
+      <p>To: {{ comment.author }}さん</p>
+      <p class="text-black-50">{{ comment.text|linebreaksbr }}</p>
+      <form method="POST">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">送信</button>
+      </form>
+      <br>
+    </div>
+  </div>
+</div>
+{% endblock content %}

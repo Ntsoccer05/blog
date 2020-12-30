@@ -1,0 +1,108 @@
+{% extends 'blogapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<br><br>
+<div class="row">
+
+  <div class="col-md-9">
+    <br>
+    {% if not user.is_authenticated %}
+    <div class="login-text">
+      <p>寄付をするにはまず<a href="{% url 'blogapp:login' %}">ログイン</a>してください。</p>
+    </div>
+    <br>
+    {% endif %}
+    <!-- Card -->
+    <div class="card">
+
+      <!-- Card image -->
+      {% if object.thumbnail %}
+      <img class="card-img-top" src="{{ object.thumbnail.url }}" alt="{{item.title}}">
+      {% else %}
+      <img class="card-img-top" src="../../../media/images/hari-panicker-2t28IxSTqF4-unsplash-min.jpg"
+        alt="Card image cap">
+      {% endif %}
+
+      <!-- Card content -->
+      <div class="card-body">
+
+        <!-- Title -->
+        <h4 class="card-title text-center"><a>{{object.title}}</a></h4>
+        <hr>
+        <!-- Text -->
+        <p class="card-text">{{object.content|safe}}</p>
+        <!-- Button -->
+        <a href="{% url 'blogapp:like_add' object.pk %}" class="btn"
+          style="background-color: #FF6699; color: white;">お気に入りにいれる</a>
+        <small>{% if object.like_count %}{{object.like_count}}人{% endif %}</small>
+        <hr>
+        <a href="/" class="btn btn-outline-dark">戻る</a>
+        {% if object.author == request.user %}
+        <a href="{% url 'blogapp:post_update' object.id%}" class="btn btn-primary">更新</a>
+        <a href="{% url 'blogapp:post_delete' object.id%}" class="btn btn-danger">削除</a>
+        {% endif %}
+      </div>
+      <hr>
+      <div class="row service_menu">
+        <div class="col-md-6 folat-right">
+          <div class="btn">
+            <p>お支払いの際こちらの<a href="{% url 'blogapp:service' %}" style="font-size: 20px;">利用規約</a>に同意したものとみなします。</p>
+          </div>
+        </div>
+        <br>
+        <div class="col-md-6 float-left">
+          <div class="btn"><a href="{% url 'blogapp:asked_question' %}" style="font-size: 20px;"><i
+                class="fas fa-envelope"></i>よくある質問</a>
+          </div>
+        </div>
+        {% if user.is_authenticated %}
+        <div class="pay">
+          <form action="" method="POST">
+            {% csrf_token %}
+            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+              data-key="{{context.publick_key}}" data-amount="{{context.post.price}}" data-name="寄付金"
+              data-description="{{context.post.title}}"
+              data-image="https://stripe.com/img/documentation/checkout/marketplace.png" data-locale="ja"
+              data-currency="jpy" data-email="{{user.email}}">
+              </script>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <!-- Card -->
+  </div>
+  <div class="col-md-3">
+    <br>
+    <!-- Card -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{object.category}}</h5>
+        <p>このカテゴリの他の記事</p>
+      </div>
+      <ul class="list-group">
+        {% for item in category_posts %}
+        <li class="list-group-item"><a href="{% url 'blogapp:post_detail' item.id %}">{{item.title}}</a></li>
+        {% endfor %}
+      </ul>
+
+
+    </div>
+    <!-- Card -->
+  </div>
+</div>
+<br><br>
+<hr>
+<br>
+<div class="comment-area">
+  <h3>コメント欄</h3>
+  {% if not request.user.is_authenticated or request.user.is_authenticated %}
+  <a class="btn btn-primary my-3" href="{% url 'blogapp:comment_form' object.pk %}">コメントを投稿する</a>
+  {% endif %}
+  <br>
+  {% include 'blogapp/comments.html' %}
+</div>
+
+
+{% endblock content %}
