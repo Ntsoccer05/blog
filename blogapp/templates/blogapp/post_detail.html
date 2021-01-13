@@ -29,10 +29,10 @@
       <div class="card-body">
 
         <!-- Title -->
-        <h4 class="card-title text-center"><a>{% block title_card %}{{object.title}}{% endblock %}</a></h4>
+        <h4 class="card-title text-center"><a>{% block blog %}{{object.title}}{% endblock %}</a></h4>
         <hr>
         <!-- Text -->
-        <p class="card-text">{% block blog %}{{object.content|safe}}{% endblock %}</p>
+        <p class="card-text">{{object.content|safe}}</p>
         <!-- Button -->
         <a href="{% url 'blogapp:like_add' object.pk %}" class="btn"
           style="background-color: #FF6699; color: white;">お気に入りにいれる</a>
