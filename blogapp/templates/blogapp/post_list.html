@@ -18,7 +18,7 @@
       <tbody>
         {% for item in post_list %}
         <tr>
-          <td><a href="{% url 'blogapp:post_detail' item.pk %}">{{item.title}}</a></td>
+          <td><a href="{% url 'blogapp:post_detail' item.pk %}" style="color: blue;">{{item.title}}</a></td>
           <td>{{item.content|safe|truncatechars_html:50}}</td>
           {% if updated_at %}
           <td>{{item.updated_at.date}}</td>
