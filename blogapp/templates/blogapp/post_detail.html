@@ -18,7 +18,8 @@
 
       <!-- Card image -->
       {% if object.thumbnail %}
-      <img class="card-img-top" src="{{ object.thumbnail.url }}" alt="{{item.title}}">
+      <img class="card-img-top" src="{% block image %}{{ block.super }}{{ object.thumbnail.url }}{% endblock %}"
+        alt="{{item.title}}">
       {% else %}
       <img class="card-img-top" src="../../../media/images/hari-panicker-2t28IxSTqF4-unsplash-min.jpg"
         alt="Card image cap">
@@ -28,10 +29,10 @@
       <div class="card-body">
 
         <!-- Title -->
-        <h4 class="card-title text-center"><a>{{object.title}}</a></h4>
+        <h4 class="card-title text-center"><a>{% block title_card %}{{object.title}}{% endblock %}</a></h4>
         <hr>
         <!-- Text -->
-        <p class="card-text">{{object.content|safe}}</p>
+        <p class="card-text">{% block blog %}{{object.content|safe}}{% endblock %}</p>
         <!-- Button -->
         <a href="{% url 'blogapp:like_add' object.pk %}" class="btn"
           style="background-color: #FF6699; color: white;">お気に入りにいれる</a>
