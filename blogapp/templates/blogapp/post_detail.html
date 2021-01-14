@@ -29,7 +29,7 @@
       <div class="card-body">
 
         <!-- Title -->
-        <h4 class="card-title text-center"><a>{% block blog %}{{object.title}}{% endblock %}</a></h4>
+        <h4 class="card-title text-center"><a>{% block title %}{{object.title}}{% endblock %}</a></h4>
         <hr>
         <!-- Text -->
         <p class="card-text">{{object.content|safe}}</p>
