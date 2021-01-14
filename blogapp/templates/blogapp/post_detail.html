@@ -18,8 +18,7 @@
 
       <!-- Card image -->
       {% if object.thumbnail %}
-      <img class="card-img-top" src="{% block image %}{{ block.super }}{{ object.thumbnail.url }}{% endblock %}"
-        alt="{{item.title}}">
+      <img class="card-img-top" src="{{ object.thumbnail.url }}" alt="{{item.title}}">
       {% else %}
       <img class="card-img-top" src="../../../media/images/hari-panicker-2t28IxSTqF4-unsplash-min.jpg"
         alt="Card image cap">
@@ -29,7 +28,7 @@
       <div class="card-body">
 
         <!-- Title -->
-        <h4 class="card-title text-center"><a>{% block title %}{{object.title}}{% endblock %}</a></h4>
+        <h4 class="card-title text-center"><a>{{object.title}}</a></h4>
         <hr>
         <!-- Text -->
         <p class="card-text">{{object.content|safe}}</p>
