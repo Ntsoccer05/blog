@@ -37,6 +37,7 @@
   <script data-ad-client="ca-pub-5309686816911413" async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- Your custom styles (optional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/monokai.min.css">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 
@@ -215,8 +216,10 @@
   </footer>
   <!-- Footer -->
   <!-- SCRIPTS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/monokai.min.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
   <!-- JQuery -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- Bootstrap tooltips -->
@@ -230,7 +233,6 @@
   <script>
     const btn = document.querySelector('.stripe-button-el > span');
     btn.innerText = "カードで寄付する";
-    hljs.initHighlightingOnLoad();
   </script>
 </body>
 
