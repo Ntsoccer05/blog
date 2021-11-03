@@ -1,26 +1,30 @@
+{% if object.comments %}
 <div class="comments">
   {% for comment in object.comments.all %}
-  {% if not request.user.is_authenticated or request.user.is_authenticated%}
   <div class="comment">
     <strong>{{ comment.author }}</strong>・{{ comment.created_at }}
     <p>{{ comment.text|linebreaksbr }}</p>
     <p>
+      {% if request.user.is_authenticated%}
       <a href="{% url 'blogapp:reply_form' comment.pk %}">返信する</a>
+      {% endif %}
+      {% if comment.useremail == request.user.email %}
       ｜<a class="text-danger" href="{% url 'blogapp:comment_delete' comment.pk %}">削除</a>
+      {% endif %}
     </p>
 
     {% for reply in comment.replies.all %}
-    {% if not request.user.is_authenticated or request.user.is_authenticated%}
     <div class="reply ml-5">
       <strong>{{ reply.author }}</strong>・{{ reply.created_at }}
       <p>{{ reply.text|linebreaksbr }}</p>
       <p>
-        ｜<a class="text-danger" href="{% url 'blogapp:reply_delete' reply.pk %}">削除</a>
+        {% if reply.authority == request.user.email %}
+        <a class="text-danger" href="{% url 'blogapp:reply_delete' reply.pk %}">削除</a>
+        {% endif %}
       </p>
     </div>
-    {% endif %}
     {% endfor %}
   </div>
-  {% endif %}
   {% endfor %}
 </div>
+{% endif %}

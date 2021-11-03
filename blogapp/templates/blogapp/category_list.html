@@ -16,14 +16,14 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title"><a
-            href="{% url 'blogapp:category_detail' category.name_en %}">{{category.name}}</a>&nbsp;<small>[&nbsp;{{category.post_count}}&nbsp;]</small>
+          style="color: black;" class="category-title" href="{% url 'blogapp:category_detail' category.name_en %}">{{category.name}}</a>&nbsp;<small>[&nbsp;{{category.post_count}}&nbsp;]</small>
         </h4>
         <hr>
         {% for post in category.post_set.all|slice:"5" %}
-        <p><a href="{% url 'blogapp:post_detail' post.id %}" style="color: black;">{{post.title}}</a></p>
+        <p><a href="{% url 'blogapp:post_detail' post.id %}" class="category-detail">{{post.title}}</a></p>
         {% endfor %}
         <br>
-        <a href="{% url 'blogapp:category_detail' category.name_en %}">このカテゴリの記事を全て見る</a>
+        <a class="category-all" href="{% url 'blogapp:category_detail' category.name_en %}">このカテゴリの記事を全て見る</a>
       </div>
     </div>
   </div>

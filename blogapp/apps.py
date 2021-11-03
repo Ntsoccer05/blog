@@ -1,5 +1,9 @@
 from django.apps import AppConfig
 
 
-class ToeicappConfig(AppConfig):
-    name = 'toeicapp'
+class BlogappConfig(AppConfig):
+    name = 'blogapp'
+
+    def ready(self):
+        # シグナルのロードをする。signals.pyを読み込むだけでOK
+        from . import signals

@@ -5,6 +5,8 @@
     <br><br>
     <h2>サインアップ</h2>
     <br>
+    <p style="color: red;">※ユーザー名はアカウントから変更可能です！</p>
+    <br>
     <div class="text-center">
       <a class="btn btn-danger btn-block" href="{% url 'social:begin' 'google-oauth2' %}"><i
           class="fab fa-google mr-3 fa-2x"></i>Googleでユーザー登録</a>
@@ -21,6 +23,7 @@
       {% endfor %}
       {% csrf_token %}
       <button type="submit" class="btn btn-primary btn-lg">送信</button>
+      <a href="{% url 'blogapp:login' %}" class="float-right">＜ログインはこちら＞</a>
     </form>
     <br><br>
   </div>

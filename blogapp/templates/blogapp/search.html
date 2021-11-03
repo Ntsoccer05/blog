@@ -12,13 +12,13 @@
         <tr>
           <th width="200px">タイトル</th>
           <th>内容</th>
-          <th width="200px">日時</th>
+          <th width="200px">更新日時</th>
         <tr>
       </thead>
       <tbody>
         {% for item in search_list %}
         <tr>
-          <td><a href="{% url 'blogapp:post_detail' item.pk %}">{{item.title}}</a></td>
+          <td><a class="serch-title" style="color: blue;" href="{% url 'blogapp:post_detail' item.pk %}">{{item.title}}</a></td>
           <td>{{item.content|safe|truncatechars_html:50}}</td>
           {% if updated_at %}
           <td>{{item.updated_at.date}}</td>

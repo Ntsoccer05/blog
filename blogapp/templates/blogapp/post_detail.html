@@ -38,9 +38,9 @@
         <small>{% if object.like_count %}{{object.like_count}}人{% endif %}</small>
         <hr>
         <a href="/" class="btn btn-outline-dark">戻る</a>
-        {% if object.author == request.user %}
-        <a href="{% url 'blogapp:post_update' object.id%}" class="btn btn-primary">更新</a>
-        <a href="{% url 'blogapp:post_delete' object.id%}" class="btn btn-danger">削除</a>
+        {% if user.is_superuser %}
+          <a href="{% url 'blogapp:post_update' object.id%}" class="btn btn-primary">更新</a>
+          <a href="{% url 'blogapp:post_delete' object.id%}" class="btn btn-danger">削除</a>
         {% endif %}
       </div>
       <hr>
@@ -97,9 +97,7 @@
 <br>
 <div class="comment-area">
   <h3>コメント欄</h3>
-  {% if not request.user.is_authenticated or request.user.is_authenticated %}
   <a class="btn btn-primary my-3" href="{% url 'blogapp:comment_form' object.pk %}">コメントを投稿する</a>
-  {% endif %}
   <br>
   {% include 'blogapp/comments.html' %}
 </div>

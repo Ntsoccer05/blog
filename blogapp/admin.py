@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Post, Like, Category, PriceHistory
+from .models import User, Post, Like, Category, PriceHistory, Comment, Reply
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.translation import ugettext_lazy as _
@@ -7,9 +7,11 @@ from django.utils.translation import ugettext_lazy as _
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'title', 'created_at')
+    list_display = ('id', 'title', 'created_at')
+    search_fields = ['title']
+    list_filter = ['updated_at','created_at']
     list_display_links = ('title',)
-    ordering = ('-created_at',)
+    ordering = ('-updated_at',)
 
 
 @admin.register(Like)
@@ -66,3 +68,26 @@ class MyUserAdmin(UserAdmin):
 
 
 admin.site.register(User, MyUserAdmin)
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    def post_title(self, obj):
+        return obj.post.title
+
+    list_filter = ['created_at']
+    list_display = ('id', 'author', 'post_title', 'text', 'useremail', 'mailadress', 'created_at',)
+    list_display_links = ('text',)
+    search_fields = ['text',]
+    ordering = ('-created_at',)
+
+
+
+@admin.register(Reply)
+class ReplyAdmin(admin.ModelAdmin):
+
+    list_filter = ['created_at']
+    list_display = ('id', 'author', 'text', 'created_at',)
+    list_display_links = ('text',)
+    search_fields = ['text']
+    ordering = ('-created_at',)

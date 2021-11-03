@@ -25,11 +25,53 @@
   overflow: hidden;
 }
 
+.serch-title:hover{
+    text-decoration: underline;
+}
+
+.post-list-all:hover{
+    text-decoration: underline;
+}
+
+.category-detail:hover{
+    text-decoration: underline;
+}
+
+.category-title:hover{
+    text-decoration: underline;
+}
+
+.category-all:hover{
+    text-decoration: underline;
+}
+
+.like-list:hover{
+    text-decoration: underline;
+}
+
+.helptext{
+    color: red;
+}
+
+.main-title:hover {
+    text-decoration: underline;
+}
+.file-img{
+	width:100%;
+	max-width: 100%;
+	height: auto;
+}
+
 @media screen and (min-width: 1024px){
   .detail-text img{
     max-width: 550px;
     max-height: 400px;
   }
+
+  /* .file-img{
+	  max-width: 650px;
+	  max-height: 600px;
+  } */
 }
 
 
@@ -610,3 +652,30 @@ font-size:43px;
 background:-webkit-linear-gradient(top, #5c80c6 0%, #34528c 74%);	
 background:linear-gradient(to bottom, #5c80c6 0%, #34528c 74%);	
 }
+
+/* Youtube */
+a.btn-sns {
+	font-size: 2.4rem;
+	line-height: 50px;
+  
+	width: 50px;
+	height: 50px;
+	padding: 0;
+  
+	letter-spacing: 0;
+  
+	color: #fff;
+	border-radius: 20%;
+  }
+  
+  a.btn-sns:hover {
+	color: #fff;
+	-webkit-transform:translateY(-5px);
+	-ms-transform:translateY(-5px);
+	transform:translateY(-5px);
+
+  }
+  
+  a.btn-sns--youtube {
+	background: #Ff0000;
+  }

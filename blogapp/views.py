@@ -25,6 +25,8 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from .forms import (PostForm, LoginForm, UserCreateForm, UserUpdateForm, MyPasswordChangeForm,
                     MyPasswordResetForm, MySetPasswordForm, SearchForm, ContactForm, CommentForm, ReplyForm)
+from .mixins import SuperuserRequiredMixin
+
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -38,13 +40,19 @@ class OnlyMyPostMixin(UserPassesTestMixin):
         post = Post.objects.get(id=self.kwargs['pk'])
         return post.author == self.request.user
 
-# class OnlyMyCommentMixin(UserPassesTestMixin):
-#     raise_exception=True
+class OnlyMyCommentMixin(UserPassesTestMixin):
+    raise_exception=True
 
-#     def test_func(self):
-#         comment=Comment.objects.get(id=self.kwargs['pk'])
-#         return comment.post.author==self.request.user
+    def test_func(self):
+        comment=Comment.objects.get(id=self.kwargs['pk'])
+        return comment.useremail==self.request.user.email
 
+class OnlyMyReplyMixin(UserPassesTestMixin):
+    raise_exception=True
+
+    def test_func(self):
+        reply=Reply.objects.get(id=self.kwargs['pk'])
+        return reply.authority==self.request.user.email
 
 class Index(TemplateView):
     template_name = 'blogapp/index.html'
@@ -61,7 +69,7 @@ class Index(TemplateView):
         return context
 
 
-class PostCreate(LoginRequiredMixin, CreateView):
+class PostCreate(SuperuserRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     success_url = reverse_lazy('blogapp:index')
@@ -113,7 +121,7 @@ class PostDetail(DetailView):
             return redirect('blogapp:index')
 
 
-class PostUpdate(OnlyMyPostMixin, UpdateView):
+class PostUpdate(SuperuserRequiredMixin, UpdateView):
     model = Post
     form_class = PostForm
 
@@ -122,7 +130,7 @@ class PostUpdate(OnlyMyPostMixin, UpdateView):
         return resolve_url('blogapp:post_detail', pk=self.kwargs['pk'])
 
 
-class PostDelete(OnlyMyPostMixin, DeleteView):
+class PostDelete(SuperuserRequiredMixin, DeleteView):
     model = Post
 
     def get_success_url(self):
@@ -370,34 +378,32 @@ class ContactFormView(FormView):
         return resolve_url('blogapp:index')
 
 
-class CommentFormView(CreateView):
+class CommentFormView(LoginRequiredMixin, CreateView):
     model = Comment
     form_class = CommentForm
 
     def form_valid(self, form):
         comment = form.save(commit=False)
         post_pk = self.kwargs['pk']
-        comment.post = get_object_or_404(Post, pk=post_pk)
+        post = get_object_or_404(Post, pk=post_pk)
+        comment.useremail = self.request.user.email
+        comment.post = post
+        comment.request = self.request
         comment.save()
         return redirect('blogapp:post_detail', pk=post_pk)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         post_pk = self.kwargs['pk']
-        # post = get_object_or_404(Post, pk=post_pk)
-        # context = {
-        #     'post': post
-        # }
         context['post'] = get_object_or_404(Post, pk=post_pk)
+        context['form'] = CommentForm( initial = { 
+                'author': self.request.user.name,
+                'mailadress' : self.request.user.email, 
+            }) 
         return context
 
 
-# @login_required
-# def comment_remove(request, pk):
-#     comment = get_object_or_404(Comment, pk=pk)
-#     comment.delete()
-#     return redirect('blogapp;post_detail', pk=comment.post.pk)
-class CommentDelete(LoginRequiredMixin, DeleteView):
+class CommentDelete(OnlyMyCommentMixin, DeleteView):
     model = Comment
 
     def get_success_url(self):
@@ -407,34 +413,31 @@ class CommentDelete(LoginRequiredMixin, DeleteView):
         return resolve_url('blogapp:post_detail', pk=pk)
 
 
-class ReplyFormView(CreateView):
+class ReplyFormView(LoginRequiredMixin, CreateView):
     model = Reply
     form_class = ReplyForm
 
     def form_valid(self, form):
         reply = form.save(commit=False)
         comment_pk = self.kwargs['pk']
-        reply.comment = get_object_or_404(Comment, pk=comment_pk)
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        reply.comment = comment
+        reply.request = self.request
+        reply.authority = self.request.user.email
         reply.save()
         return redirect('blogapp:post_detail', pk=reply.comment.post.pk)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        comment_pk = self.kwargs['pk']
-        # comment = get_object_or_404(Comment, pk=comment_pk)
-        # context = {
-        #     'comment': comment
-        # }
-        context['comment'] = get_object_or_404(Comment, pk=comment_pk)
+        pk = self.kwargs['pk']
+        comment = get_object_or_404(Comment, pk=pk)
+        context['comment'] = comment
+        context['post'] = comment.post
+        context['form'] = ReplyForm( initial = { 'author': self.request.user.name } ) 
         return context
 
 
-# @login_required
-# def reply_remove(request, pk):
-#     reply = get_object_or_404(Reply, pk=pk)
-#     reply.delete()
-#     return redirect('blogapp:post_detail', pk=reply.comment.post.pk)
-class ReplyDelete(LoginRequiredMixin, DeleteView):
+class ReplyDelete(OnlyMyReplyMixin, DeleteView):
     model = Reply
 
     def get_success_url(self):
@@ -458,3 +461,5 @@ class Service(TemplateView):
 
 class AskedQuestion(TemplateView):
     template_name = 'blogapp/asked_question.html'
+
+

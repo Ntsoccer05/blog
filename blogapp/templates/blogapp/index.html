@@ -38,7 +38,7 @@
         <div class="card-body index">
 
           <!--Title-->
-          <h4 class="card-title text-center">{{item.title}}</h4>
+          <h4 class="card-title text-center"><a class="main-title" href="{% url 'blogapp:post_detail' item.id %}" style="color: black;">{{item.title}}</a></h4>
           <p>{{ item.category }}</p>
           <hr>
           <!--Text-->
@@ -46,13 +46,13 @@
         </div>
         <div class="card-body">
           <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-          <a href="{% url 'blogapp:post_detail' item.id %}" type="button" class="btn btn-light-blue btn-md">もっと読む</a>
+          <a href="{% url 'blogapp:post_detail' item.id %}" type="button" class="btn btn-blue btn-md">内容を見る</a>
           <a href="{% url 'blogapp:like_add' item.pk %}"><i class="fas fa-heart"
               style="color: pink;"></i></a>&nbsp;{{item.like_count}}
         </div>
         <!-- Card footer -->
         <div class="card-footer text-muted text-center">
-          <small>
+          <small>更新日: 
             {% if item.updated_at %}
             {{item.updated_at.date}}
             {% else %}

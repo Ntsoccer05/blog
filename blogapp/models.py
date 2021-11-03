@@ -133,6 +133,8 @@ class Comment(models.Model):
         Post, on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=50)
     text = models.TextField()
+    mailadress = models.EmailField('メールアドレス', blank=True, null=True, help_text='(※入力しておくと、返信があった際に通知します。コメント欄には表示されません。登録の際にメールアドレスを登録している場合必要ありません)')
+    useremail = models.EmailField('ユーザーのメールアドレス', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -146,6 +148,7 @@ class Reply(models.Model):
     comment = models.ForeignKey(
         Comment, on_delete=models.CASCADE, related_name='replies')
     author = models.CharField(max_length=50)
+    authority = models.CharField(max_length=100, blank=True, null=True)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 

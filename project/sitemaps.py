@@ -8,8 +8,9 @@ class BlogPostSitemap(Sitemap):
     """
     ブログ記事のサイトマップ
     """
-    changefreq = "never"
+    changefreq = "daily"
     priority = 0.8
+    protocol = "https"
 
     def items(self):
         return Post.objects.all()
@@ -19,15 +20,19 @@ class BlogPostSitemap(Sitemap):
         return reverse('blogapp:post_detail', args=[obj.pk])
 
     def lastmod(self, obj):
-        return obj.created_at
+        if obj.updated_at:
+          return obj.updated_at
+        else:
+          return obj.created_at
 
 
 class StaticViewSitemap(Sitemap):
     """
     静的ページのサイトマップ
     """
-    changefreq = "daily"
+    changefreq = "weekly"
     priority = 0.5
+    protocol = "https"
 
     def items(self):
         return ['blogapp:index', 'blogapp:category_list', 'blogapp:post_list']

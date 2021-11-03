@@ -1,0 +1,4 @@
+【Takuチャンブログ】
+記事「{{ post.title }}」 にコメントが投稿されました。
+以下のURLからご確認ください。
+{{ request.scheme }}://{{ request.get_host }}{% url 'blogapp:post_detail' post.pk %}

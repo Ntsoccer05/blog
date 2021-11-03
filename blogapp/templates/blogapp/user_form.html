@@ -1,7 +1,10 @@
 {% extends "blogapp/base.html" %}
 {% block content %}
+<br>
+<br>
+<br>
 <form action="" method="POST">
-  {{ form.non_field_errors }}
+  <!-- {{ form.non_field_errors }}
   <table class="table">
     <tbody>
       {% for field in form %}
@@ -11,7 +14,8 @@
       </tr>
       {% endfor %}
     </tbody>
-  </table>
+  </table> -->
+  {{ form.as_p }}
   {% csrf_token %}
   <button type="submit" class="btn btn-success btn-lg">送信</button>
 </form>

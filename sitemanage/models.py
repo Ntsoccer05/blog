@@ -11,6 +11,7 @@ class SiteConfig(models.Model):
     author = models.CharField('管理者', max_length=30)
     top_title = models.CharField('TOPページタイトル', max_length=100)
     top_subtitle = models.CharField('TOPページサブタイトル', max_length=200)
+    blog_name = models.CharField('ブログ名', max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.meta_title
