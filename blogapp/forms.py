@@ -164,7 +164,7 @@ class ContactForm(forms.Form):
 
 
 class CommentForm(ModelForm):
-    author = forms.CharField(help_text='※変更可能です。', label="名前", required=True, widget=forms.TextInput(attrs={
+    author = forms.CharField(help_text='※変更可能(デフォルトは「ユーザー名」)', label="名前", required=True, widget=forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': '名前',
             }))
@@ -182,7 +182,7 @@ class CommentForm(ModelForm):
 
 
 class ReplyForm(ModelForm):
-    author = forms.CharField(help_text='※変更可能です。', label="名前", required=True, widget=forms.TextInput(attrs={
+    author = forms.CharField(help_text='※変更可能(デフォルトは「ユーザー名」)', label="名前", required=True, widget=forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': '名前',
             }))
