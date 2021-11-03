@@ -35,7 +35,7 @@
         <!-- Button -->
         <a href="{% url 'blogapp:like_add' object.pk %}" class="btn"
           style="background-color: #FF6699; color: white;">お気に入りにいれる</a>
-        <small>{% if object.like_count %}{{object.like_count}}人{% endif %}</small>
+        <!-- <small>{% if object.like_count %}{{object.like_count}}人{% endif %}</small> -->
         <hr>
         <a href="/" class="btn btn-outline-dark">戻る</a>
         {% if user.is_superuser %}
