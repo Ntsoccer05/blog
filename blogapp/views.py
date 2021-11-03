@@ -26,6 +26,7 @@ from django.contrib import messages
 from .forms import (PostForm, LoginForm, UserCreateForm, UserUpdateForm, MyPasswordChangeForm,
                     MyPasswordResetForm, MySetPasswordForm, SearchForm, ContactForm, CommentForm, ReplyForm)
 from .mixins import SuperuserRequiredMixin
+from django.utils import timezone
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY

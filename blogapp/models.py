@@ -111,7 +111,7 @@ class Post(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     thumbnail = models.ImageField(upload_to='images/', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(default=timezone.now)
     like_num = models.IntegerField(default=0)
 
     def like_count(self):

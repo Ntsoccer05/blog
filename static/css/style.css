@@ -700,16 +700,15 @@ background:linear-gradient(to bottom, #5c80c6 0%, #34528c 74%);
 /* Youtube */
 a.btn-sns {
 	font-size: 2.4rem;
-	line-height: 50px;
-  
+	line-height: 50px; 
 	width: 50px;
 	height: 50px;
 	padding: 0;
-  
-	letter-spacing: 0;
-  
+	letter-spacing: 0; 
 	color: #fff;
 	border-radius: 20%;
+	position:relative;
+	top:-5px;
   }
   
   a.btn-sns:hover {

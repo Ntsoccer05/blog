@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'created_at')
+    list_display = ('id', 'title', 'created_at', 'updated_at')
     search_fields = ['title']
     list_filter = ['updated_at','created_at']
     list_display_links = ('title',)
